@@ -1,0 +1,26 @@
+{
+    "name": "tehcodedninja/runescape-api",
+    "description": "A wrapper around Runescape's various APIs",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "illuminate/support": "^5.8",
+        "symfony/dom-crawler": "^4.2",
+        "symfony/css-selector": "^4.2",
+        "nesbot/carbon": "^2.14"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Michael Pivonka",
+            "email": "m.pivonka@codedninja.com"
+        }
+    ]
+}
