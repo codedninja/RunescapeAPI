@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Tehcodedninja\\RunescapeAPI\\": "src/RunescapeAPI/"
+            "Tehcodedninja\\RunescapeAPI\\": "src/RunescapeAPI"
         }
     },
     "authors": [
