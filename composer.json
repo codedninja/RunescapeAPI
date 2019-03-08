@@ -1,7 +1,7 @@
 {
     "name": "tehcodedninja/runescape-api",
     "description": "A wrapper around Runescape's various APIs",
-    "type": "library",
+    "type": "package",
     "require": {
         "guzzlehttp/guzzle": "^6.3",
         "illuminate/support": "^5.8",
