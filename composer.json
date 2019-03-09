@@ -14,9 +14,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Tehcodedninja\\RunescapeAPI\\": "src/RunescapeAPI"
+            "Tehcodedninja\\RunescapeAPI\\": "src/"
         }
     },
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Michael Pivonka",
