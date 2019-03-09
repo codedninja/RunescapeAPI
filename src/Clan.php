@@ -1,12 +1,12 @@
 <?php
 
-namespace Tehcodedninja\RunescapeAPI;
+namespace RunescapeAPI;
 
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DomCrawler\Crawler;
-use Tehcodedninja\RunescapeAPI\Exception\UnknownClanException;
-use Tehcodedninja\RunescapeAPI\Player\PlayerCollection;
+use RunescapeAPI\Exception\UnknownClanException;
+use RunescapeAPI\Player\PlayerCollection;
 
 class Clan {
     

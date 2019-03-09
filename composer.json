@@ -1,5 +1,5 @@
 {
-    "name": "tehcodedninja/runescape-api",
+    "name": "tehcodedninja/RunescapeAPI",
     "description": "A wrapper around Runescape's various APIs",
     "type": "package",
     "require": {
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Tehcodedninja\\RunescapeAPI\\": "src/"
+            "RunescapeAPI\\": "src/"
         }
     },
     "minimum-stability": "dev",

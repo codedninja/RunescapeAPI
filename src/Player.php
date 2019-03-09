@@ -1,13 +1,13 @@
 <?php
 
-namespace Tehcodedninja\RunescapeAPI;
+namespace RunescapeAPI;
 
 use GuzzleHttp\Client as Guzzle;
 use \GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
-use Tehcodedninja\RunescapeAPI\Exception\UnknownPlayerException;
-use Tehcodedninja\RunescapeAPI\Player\Skills\SkillsCollection;
-use Tehcodedninja\RunescapeAPI\Player\ActivitiesCollection;
+use RunescapeAPI\Exception\UnknownPlayerException;
+use RunescapeAPI\Player\Skills\SkillsCollection;
+use RunescapeAPI\Player\ActivitiesCollection;
 
 class Player {
 

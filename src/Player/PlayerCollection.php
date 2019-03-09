@@ -1,6 +1,6 @@
 <?php 
 
-namespace Tehcodedninja\RunescapeAPI\Player;
+namespace RunescapeAPI\Player;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tehcodedninja\RunescapeAPI\Player\Skills;
+namespace RunescapeAPI\Player\Skills;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;

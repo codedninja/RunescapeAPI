@@ -6,35 +6,35 @@ class PlayerTest extends TestCase {
 
     public function testPlayerInstance(): void
     {
-        $player = new Tehcodedninja\RunescapeAPI\Player('Codedninja');
+        $player = new RunescapeAPI\Player('Codedninja');
 
-        $this->assertInstanceOf(Tehcodedninja\RunescapeAPI\Player::class, new Tehcodedninja\RunescapeAPI\Player('codedninja'));
+        $this->assertInstanceOf(RunescapeAPI\Player::class, new RunescapeAPI\Player('codedninja'));
     }
 
     public function testPlayerExist(): void
     {
-        $player = new Tehcodedninja\RunescapeAPI\Player('codedninja');
+        $player = new RunescapeAPI\Player('codedninja');
 
         $this->assertEquals('codedninja', $player->getName());
     }
 
     public function testPlayerDoesntExist(): void
     {
-        $this->expectException(Tehcodedninja\RunescapeAPI\Exception\UnknownPlayerException::class);
+        $this->expectException(RunescapeAPI\Exception\UnknownPlayerException::class);
         
-        $player = new Tehcodedninja\RunescapeAPI\Player('PlayerDoesntExist');
+        $player = new RunescapeAPI\Player('PlayerDoesntExist');
     }
 
     public function testPlayerHasClan(): void
     {
-        $player = new Tehcodedninja\RunescapeAPI\Player('codedninja');
+        $player = new RunescapeAPI\Player('codedninja');
 
         $this->assertNotNull($player->getClan());
     }
 
     public function testPlayerHasNoClan(): void
     {
-        $player = new Tehcodedninja\RunescapeAPI\Player('codedninja2');
+        $player = new RunescapeAPI\Player('codedninja2');
 
         $this->assertNull($player->getClan());
     }

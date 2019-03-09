@@ -1,10 +1,10 @@
 <?php 
 
-namespace Tehcodedninja\RunescapeAPI\Player\Skills;
+namespace RunescapeAPI\Player\Skills;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
-use Tehcodedninja\RunescapeAPI\Player\Skills\Repository;
+use RunescapeAPI\Player\Skills\Repository;
 
 class SkillsCollection extends Collection
 {

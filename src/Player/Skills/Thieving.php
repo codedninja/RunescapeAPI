@@ -1,6 +1,6 @@
 <?php
 
-namespace Tehcodedninja\RunescapeAPI\Player\Skills;
+namespace RunescapeAPI\Player\Skills;
 
 class Thieving extends Skill {
     

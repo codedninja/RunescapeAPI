@@ -1,6 +1,6 @@
 <?php
 
-namespace Tehcodedninja\RunescapeAPI\Exception;
+namespace RunescapeAPI\Exception;
 
 class UnknownClanException extends \Exception
 {
