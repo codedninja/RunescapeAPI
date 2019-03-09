@@ -4,6 +4,7 @@ namespace RunescapeAPI\Player;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
+use RunescapeAPI\Player;
 
 class PlayerCollection extends Collection
 {
@@ -44,4 +45,12 @@ class PlayerCollection extends Collection
 
         return $collection;
     }
+
+    public function findByName($name)
+    {
+        return $this->filter(function ($player) use ($name) {
+            return $player->getName() === $name;
+        })->first();
+    }
+
 }

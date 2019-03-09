@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use RunescapeAPI\Exception\UnknownPlayerException;
 use RunescapeAPI\Player\Skills\SkillsCollection;
 use RunescapeAPI\Player\ActivitiesCollection;
+use RunescapeAPI\Clan;
 
 class Player {
 
@@ -35,10 +36,15 @@ class Player {
     // Skills
     protected $skills = [];
 
+    // Monthly Experience Cache
+    protected $monthly_experience = [];
+
     // Endpoints
     protected $endpoints = [
         'profile'   => 'https://apps.runescape.com/runemetrics/profile/profile?user=%s&activities=20',
-        'player_details'      => 'https://secure.runescape.com/m=website-data/playerDetails.ws'
+        'player_details'      => 'https://secure.runescape.com/m=website-data/playerDetails.ws',
+        'xp-monthly'    => 'https://apps.runescape.com/runemetrics/xp-monthly?searchName=%s&skillid=%s',
+        'quests'    => 'https://apps.runescape.com/runemetrics/quests?user=%s'
     ];
 
     // Cache of profile data
@@ -47,6 +53,8 @@ class Player {
     protected $guzzle;
 
     // Clan stats
+    protected $clan;
+
     protected $clan_rank = '';
 
     protected $member = false;
@@ -88,6 +96,10 @@ class Player {
             $this->profile = json_decode($profile_response->getBody());
 
             if(isset($this->profile->error)) {
+                if($this->profile->error == "PROFILE_PRIVATE") {
+                    throw new PrivatePlayerException($this->name);
+                }
+
                 throw new UnknownPlayerException($this->name);
             }
 
@@ -146,42 +158,81 @@ class Player {
     }
 
     public function getClanRank() {
+        $this->getClan();
         return $this->clan_rank;
     }
 
     public function getMember() {
+        $this->getClan();
         return $this->member;
     }
 
     public function getClanTotalExperience() {
+        $this->getClan();
         return $this->clan_total_xp;
     }
 
     public function getClanKills() {
+        $this->getClan();
         return $this->kills;
     }
 
     public function getOnline() {
+        $this->getClan();
         return $this->online;
     }
 
     public function getClan() {
-        $raw_clan = $this->guzzle->request('GET', $this->endpoints['player_details'], [
+        if($this->clan != null) {
+            return $this->clan;
+        }
+
+        // Get Clan name from player details
+        $profile_details_response = $this->guzzle->request('GET', $this->endpoints['player_details'], [
             'query' => [
                 'names' => '["'.$this->name.'"]',
                 'callback' => 'angular.callbacks._1'
-            ],
-            'on_stats' => function ($stats) use (&$url) {
-                $url = $stats->getEffectiveUri();
-            }
+            ]
         ]);
 
-        $clan = $this->jsonp_decode((string)$raw_clan->getBody());
+        $profile_details = $this->jsonp_decode((string)$profile_details_response->getBody());
+
+        if(!isset($profile_details[0]->clan)) {
+            throw new PlayerNotInAClan($this->name);
+        }
+
+        // Get Clan
+        $this->clan = new Clan($profile_details[0]->clan);
         
-        return (isset($clan[0]->clan)) ? $clan[0]->clan : null;
+        // Parse out clan details
+        $clan_members = $this->clan->getMembers();
+
+        $player = $clan_members->findByName($this->name);
+
+        $this->clan_rank = $player->getClanRank();
+        $this->member = $player->getMember();
+        $this->clan_total_xp = $player->getClanTotalExperience();
+        $this->kills = $player->getClanKills();
+        $this->online = $player->getOnline();
+
+        return $this->clan;
     }
 
-    private function jsonp_decode($jsonp, $assoc = false) { // PHP 5.3 adds depth as third parameter to json_decode
+    public function getMonthlyExperience($skill = -1) {
+        if(isset($this->monthly_experience[$skill])) {
+            return $this->monthly_experience[$skill];
+        }
+        
+        $monthly_response = $this->guzzle->request('GET', sprintf($this->endpoints['xp-monthly'], $this->name, $skill));
+
+        $monthly_experience = json_decode((string)$monthly_response->getBody());
+
+        $this->monthly_experience[$skill] = $monthly_experience->monthlyXpGain[0];
+        
+        return $this->monthly_experience[$skill];
+    }
+
+    private function jsonp_decode($jsonp, $assoc = false) {
         $jsonp_string = preg_replace("/[^(]*\((.*)\)(?:;|)/", "$1", $jsonp);
         return json_decode($jsonp_string, $assoc);
     }

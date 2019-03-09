@@ -13,6 +13,9 @@ class Clan {
     // Clan name
     protected $name = '';
 
+    // Clan Runescape ID
+    protected $id;
+
     // Members count
     protected $total_members = 0;
 
@@ -79,7 +82,17 @@ class Clan {
         return $this->name;
     }
 
-    public function getmembers() {
+    public function getId() {
+        if($this->id != null) {
+            return $this->id;
+        }
+
+        $this->getMembers();
+
+        return $this->id;
+    }
+
+    public function getMembers() {
         if (count($this->members) > 0) {
             return $this->members;
         }
@@ -98,6 +111,8 @@ class Clan {
                 $members_collection = PlayerCollection::clanFactory($members);
 
                 $this->members = $this->members->merge($members_collection);
+
+                $this->id = $members_crawler->filter("input[name='clanId']")->attr('value');
             }
 
         } catch (RequestException $e) {
