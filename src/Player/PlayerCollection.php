@@ -31,7 +31,7 @@ class PlayerCollection extends Collection
             $online = (trim($player->filter('span.onlineStatus > span.world')->text()) == 'Offline') ? -1 : trim(str_replace('RS', '', $player->filter('span.onlineStatus > span.world')->text()));
 
             $collection->push(
-                new Player([
+                new \RunescapeAPI\Player([
                     "name"          => $name,
                     "avatar"        => $avatar,
                     "clan_rank"     => $clan_rank,
